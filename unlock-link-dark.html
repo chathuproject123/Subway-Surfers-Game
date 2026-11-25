@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
+  <title>Unlock Link</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d18;
+      --panel: #121a2b;
+      --panel2: #18243a;
+      --text: #f4f7ff;
+      --muted: #aab6cc;
+      --accent: #7c5cff;
+      --accent2: #23d5ab;
+      --border: rgba(255,255,255,.10);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      padding: 24px; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 10%, rgba(124,92,255,.22), transparent 38%),
+        radial-gradient(ellipse at 85% 90%, rgba(35,213,171,.13), transparent 35%),
+        var(--bg);
+    }
+    .card {
+      width: min(100%, 470px); padding: 34px 28px; text-align: center;
+      background: linear-gradient(160deg, rgba(24,36,58,.98), rgba(15,22,37,.98));
+      border: 1px solid var(--border); border-radius: 24px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+    }
+    .icon {
+      width: 76px; height: 76px; margin: 0 auto 20px; display: grid; place-items: center;
+      border-radius: 22px; font-size: 34px;
+      background: linear-gradient(135deg, var(--accent), #3b9cff);
+      box-shadow: 0 10px 30px rgba(124,92,255,.3);
+    }
+    h1 { margin: 0 0 10px; font-size: clamp(28px, 6vw, 36px); letter-spacing: -.8px; }
+    .intro { margin: 0 auto 26px; max-width: 340px; color: var(--muted); line-height: 1.6; }
+    .step {
+      display: flex; align-items: center; gap: 12px; text-align: left;
+      margin: 12px 0; padding: 14px; border: 1px solid var(--border);
+      border-radius: 14px; background: rgba(255,255,255,.035);
+    }
+    .number {
+      flex: 0 0 32px; height: 32px; display: grid; place-items: center;
+      border-radius: 50%; background: rgba(124,92,255,.2); color: #c9bdff; font-weight: 800;
+    }
+    .step strong { display: block; font-size: 14px; }
+    .step small { display: block; margin-top: 3px; color: var(--muted); line-height: 1.4; }
+    .btn {
+      display: block; width: 100%; margin-top: 16px; padding: 15px 18px;
+      border: 0; border-radius: 13px; font-size: 16px; font-weight: 800;
+      text-decoration: none; cursor: pointer; transition: transform .15s, opacity .15s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .unlock { color: white; background: linear-gradient(100deg, var(--accent), #4c8dff); }
+    .continue { color: #061711; background: linear-gradient(100deg, #23d5ab, #8be6a8); }
+    .continue:disabled { opacity: .38; cursor: not-allowed; transform: none; }
+    .status { min-height: 22px; margin: 13px 0 0; color: var(--muted); font-size: 13px; }
+    footer { margin-top: 24px; color: #74819a; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="icon" aria-hidden="true">🔒</div>
+    <h1>Unlock Link</h1>
+    <p class="intro">Complete the link-opening step below to enable the button to continue to Subway Surfers.</p>
+
+    <div class="step">
+      <span class="number">1</span>
+      <div><strong>Open the unlock link</strong><small>It will open in a new browser tab.</small></div>
+    </div>
+    <button class="btn unlock" id="unlockBtn" type="button">Unlock Link ↗</button>
+
+    <div class="step">
+      <span class="number">2</span>
+      <div><strong>Continue to the game</strong><small>After opening the unlock link, return here and continue.</small></div>
+    </div>
+    <button class="btn continue" id="continueBtn" type="button" disabled>Continue to Subway Surfers →</button>
+    <p class="status" id="status" role="status" aria-live="polite">Please click Unlock Link first.</p>
+    <footer>External links open in a new tab where supported.</footer>
+  </main>
+
+  <script>
+    const unlockUrl = "https://uplcm.com/4/9122694";
+    const redirectUrl = "https://subwaysurfersgame-sepia.vercel.app/";
+
+    const unlockBtn = document.getElementById("unlockBtn");
+    const continueBtn = document.getElementById("continueBtn");
+    const status = document.getElementById("status");
+
+    unlockBtn.addEventListener("click", () => {
+      const popup = window.open(unlockUrl, "_blank", "noopener,noreferrer");
+      // Enable the next step after the user clicks. This page cannot verify
+      // whether an external offer/link was actually completed.
+      continueBtn.disabled = false;
+      status.textContent = popup
+        ? "Unlock link opened. Return here when you're ready to continue."
+        : "Your browser may have blocked the new tab. Allow pop-ups, then click Unlock Link again.";
+    });
+
+    continueBtn.addEventListener("click", () => {
+      if (!continueBtn.disabled) window.location.href = redirectUrl;
+    });
+  </script>
+</body>
+</html>
